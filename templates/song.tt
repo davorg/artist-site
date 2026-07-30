@@ -1,0 +1,88 @@
+<article>
+  <header class="song-heading[% IF page.has_artwork %] song-heading--with-artwork[% END %]">
+    [% IF page.has_artwork %]
+      <img
+        class="artwork"
+        src="[% page.artwork_url | html %]"
+        alt="[% page.effective_artwork.alt | html %]"
+        width="[% page.effective_artwork.width %]"
+        height="[% page.effective_artwork.height %]"
+      >
+    [% END %]
+
+    <div>
+      <p class="eyebrow">Song</p>
+      <h1>[% page.title | html %]</h1>
+      <p class="intro">[% page.description | html %]</p>
+
+      [% IF page.spotify_embed_url %]
+        <iframe
+          class="player"
+          src="[% page.spotify_embed_url | html %]"
+          title="Listen to [% page.title | html %] on Spotify"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        ></iframe>
+      [% END %]
+
+      <div class="streaming-links">
+        [% FOREACH link IN page.streaming_links %]
+          <a class="button" href="[% link.url | html %]">
+            Listen on [% link.name | html %]
+          </a>
+        [% END %]
+      </div>
+    </div>
+  </header>
+
+  <section class="song-releases">
+    <p class="eyebrow">Appears on</p>
+    <h2>Releases</h2>
+    <ul>
+      [% FOREACH release IN page.releases %]
+        <li>
+          <a href="[% release.url | html %]">[% release.title | html %]</a>
+          <span>[% release.type_label | html %]</span>
+        </li>
+      [% END %]
+    </ul>
+  </section>
+
+  [% IF page.has_story %]
+    <section class="story">
+      <div>
+        <p class="eyebrow">Behind the song</p>
+        <h2>The story</h2>
+      </div>
+
+      <div class="story__content">
+        <p class="intro">[% page.story.intro | html %]</p>
+
+        [% FOREACH section IN page.story.sections %]
+          <section class="story__section">
+            <h3>[% section.title | html %]</h3>
+            [% FOREACH paragraph IN section.paragraphs %]
+              <p>[% paragraph | html %]</p>
+            [% END %]
+          </section>
+        [% END %]
+      </div>
+    </section>
+  [% END %]
+
+  <section class="lyrics">
+    <div>
+      <p class="eyebrow">Words</p>
+      <h2>Lyrics</h2>
+    </div>
+
+    <div>
+      [% FOREACH section IN page.lyrics %]
+        <section class="lyric">
+          <h3>[% section.label | html %]</h3>
+          <p>[% section.lines.join('<br>') %]</p>
+        </section>
+      [% END %]
+    </div>
+  </section>
+</article>

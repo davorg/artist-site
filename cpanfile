@@ -1,0 +1,9 @@
+requires 'Moo';
+requires 'MooX::Role::JSON_LD';
+requires 'MooX::Role::SEOTags', '1.2.1';
+requires 'App::BlurFill', '0.0.3';
+requires 'Image::Size';
+requires 'Path::Tiny';
+requires 'Template';
+requires 'YAML::XS';
+on test => sub { requires 'Test2::V0'; };

@@ -1,0 +1,11 @@
+<section class="page-heading">
+  <p class="eyebrow">The catalogue</p>
+  <h1>Releases</h1>
+  <p class="intro">Singles, EPs and albums by [% artist.name | html %].</p>
+</section>
+
+<section class="release-list" aria-label="All releases">
+  [% FOREACH release IN releases %]
+    [% PROCESS 'release-card.tt' %]
+  [% END %]
+</section>

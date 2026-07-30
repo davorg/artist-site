@@ -1,0 +1,18 @@
+<nav
+  class="social-links[% IF social_links_class %] [% social_links_class %][% END %]"
+  aria-label="[% social_links_label | html %]"
+>
+  [% FOREACH social_link IN artist.social_links %]
+    <a
+      class="social-link"
+      href="[% social_link.url | html %]"
+      aria-label="[% social_link.label | html %]"
+      title="[% social_link.label | html %]"
+    >
+      <i
+        class="social-link__icon [% social_link.icon_class %]"
+        aria-hidden="true"
+      ></i>
+    </a>
+  [% END %]
+</nav>

@@ -1,0 +1,17 @@
+<article class="release-card">
+  <img
+    class="artwork"
+    src="[% release.artwork_url | html %]"
+    alt="[% release.artwork.alt | html %]"
+    width="[% release.artwork.width %]"
+    height="[% release.artwork.height %]"
+    loading="lazy"
+  >
+
+  <div>
+    <p>[% release.type_label | html %] · [% release.release_date_label | html %]</p>
+    <h3><a href="[% release.url %]">[% release.title | html %]</a></h3>
+    <p>[% release.tagline | html %]</p>
+    <a class="text-link" href="[% release.url %]">Explore this release →</a>
+  </div>
+</article>

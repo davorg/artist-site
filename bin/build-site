@@ -1,0 +1,39 @@
+#!/usr/bin/env perl
+
+use v5.26;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use ArtistSite::Site;
+use File::Find qw(find);
+use Path::Tiny qw(path);
+
+my $project_root = path($FindBin::Bin)->parent;
+
+my $site = ArtistSite::Site->new(
+    data_dir   => $project_root->child('data'),
+    output_dir => $project_root->child('docs'),
+    theme_dir  => $project_root->child('templates'),
+    assets_dir => $project_root->child('assets'),
+);
+
+$site->build;
+
+my (undef, undef, undef, undef, $project_uid, $project_gid) = stat $project_root;
+
+find(
+    {
+        no_chdir => 1,
+        wanted   => sub {
+            chown $project_uid, $project_gid, $File::Find::name
+                or die "Could not set ownership on $File::Find::name: $!";
+        },
+    },
+    $site->output_dir->stringify,
+);
+
+my $page_count = scalar $site->pages->@*;
+
+say "Built $page_count pages in " . $site->output_dir;

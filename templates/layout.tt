@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  [% page.seo_tags %]
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    referrerpolicy="no-referrer"
+  >
+
+  [% IF artist.ga4_measurement_id %]
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=[% artist.ga4_measurement_id | uri %]"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '[% artist.ga4_measurement_id | html %]');
+    </script>
+  [% END %]
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/">[% artist.name | html %]</a>
+
+    <nav aria-label="Primary">
+      <a href="/release/">Music</a>
+      <a href="/#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    [% content %]
+  </main>
+
+  <footer class="site-footer">
+    <span>[% artist.name | html %]</span>
+    <span class="site-footer__separator" aria-hidden="true">·</span>
+    <span>[% artist.location | html %]</span>
+    <span class="site-footer__separator" aria-hidden="true">·</span>
+    [% PROCESS 'social-links.tt'
+        social_links_label = artist.social_links_label
+        social_links_class = 'social-links--footer'
+    %]
+  </footer>
+
+  <script type="application/ld+json">
+    [% page.json_ld %]
+  </script>
+</body>
+</html>
