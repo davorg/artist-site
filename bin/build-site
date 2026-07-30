@@ -8,20 +8,50 @@ use lib "$FindBin::Bin/../lib";
 
 use ArtistSite::Site;
 use File::Find qw(find);
+use Getopt::Long qw(GetOptions);
 use Path::Tiny qw(path);
 
-my $project_root = path($FindBin::Bin)->parent;
+my %options = (
+    site_dir   => '.',
+    output_dir => 'docs',
+);
+
+GetOptions(
+    'site-dir=s'   => \$options{site_dir},
+    'output-dir=s' => \$options{output_dir},
+    'theme-dir=s'  => \$options{theme_dir},
+) or die "Invalid command-line options\n";
+
+my $engine_root = path($FindBin::Bin)->parent->absolute;
+my $site_root = path($options{site_dir})->absolute;
+my $output_dir = path($options{output_dir});
+$output_dir = $site_root->child($output_dir) unless $output_dir->is_absolute;
+
+my $theme_dir = defined $options{theme_dir}
+    ? path($options{theme_dir})->absolute
+    : $engine_root->child('templates');
+
+my $data_dir = $site_root->child('data');
+my $images_dir = $site_root->child('assets/images');
+
+die "Site data directory does not exist: $data_dir\n"
+    unless $data_dir->is_dir;
+die "Site image directory does not exist: $images_dir\n"
+    unless $images_dir->is_dir;
+die "Theme directory does not exist: $theme_dir\n"
+    unless $theme_dir->is_dir;
 
 my $site = ArtistSite::Site->new(
-    data_dir   => $project_root->child('data'),
-    output_dir => $project_root->child('docs'),
-    theme_dir  => $project_root->child('templates'),
-    assets_dir => $project_root->child('assets'),
+    data_dir   => $data_dir,
+    output_dir => $output_dir,
+    theme_dir  => $theme_dir,
+    assets_dir => $engine_root->child('assets'),
+    images_dir => $images_dir,
 );
 
 $site->build;
 
-my (undef, undef, undef, undef, $project_uid, $project_gid) = stat $project_root;
+my (undef, undef, undef, undef, $project_uid, $project_gid) = stat $site_root;
 
 find(
     {

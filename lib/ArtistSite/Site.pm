@@ -26,6 +26,7 @@ has data_dir   => (is => 'ro', required => 1);
 has output_dir => (is => 'ro', required => 1);
 has theme_dir  => (is => 'ro', required => 1);
 has assets_dir => (is => 'ro', required => 1);
+has images_dir => (is => 'ro', required => 1);
 
 has artist   => (is => 'lazy');
 has songs    => (is => 'lazy');
@@ -370,7 +371,7 @@ sub _blurfill_source_file {
 sub _source_image_file {
     my ($self, $filename) = @_;
 
-    return $self->assets_dir->child('images', $filename);
+    return $self->images_dir->child($filename);
 }
 
 sub _build_validation_issues {
@@ -433,12 +434,18 @@ sub _copy_assets {
     $output_assets->remove_tree({safe => 0}) if $output_assets->exists;
     $output_assets->mkpath;
 
-    for my $asset ($self->assets_dir->children) {
+    for my $asset (grep { $_->basename ne 'images' }
+            $self->assets_dir->children) {
         $self->_copy_asset_tree(
             $asset,
             $output_assets->child($asset->basename),
         );
     }
+
+    $self->_copy_asset_tree(
+        $self->images_dir,
+        $output_assets->child('images'),
+    );
 
     return;
 }
