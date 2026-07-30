@@ -3,6 +3,8 @@ package ArtistSite::Site;
 use v5.26;
 use warnings;
 
+our $VERSION = '0.1.0';
+
 use Moo;
 use App::BlurFill;
 use Image::Size qw(imgsize);

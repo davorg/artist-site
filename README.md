@@ -32,6 +32,20 @@ docker run --rm \
 
 The container writes the generated site to `/path/to/artist/_site`.
 
+## Publishing the Docker image
+
+Add `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` as repository secrets on
+GitHub. To publish a release, update `$ArtistSite::Site::VERSION`, commit the
+change, and push a matching tag:
+
+```console
+git tag VERSION.0.1.0
+git push origin VERSION.0.1.0
+```
+
+The workflow publishes `davorg/artist-site` for AMD64 and ARM64, tagged with
+the full version (`0.1.0`), the major/minor version (`0.1`), and `latest`.
+
 Music is modelled in three layers:
 
 - Songs own creative content such as titles, descriptions, and lyrics.
