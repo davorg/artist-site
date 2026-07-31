@@ -1,0 +1,56 @@
+---
+- slug: first-light
+  title: First Light
+  description: A fictional song about seeing the morning arrive.
+  links:
+    spotify: https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC
+    soundcloud: https://soundcloud.com/exampleartist/first-light
+  lyrics:
+    - type: verse
+      lines:
+        - The window catches first light
+        - The empty street turns gold
+  story:
+    intro: A short fictional story behind the song.
+    sections:
+      - title: The idea
+        paragraphs:
+          - This test song began with an imaginary sunrise.
+
+- slug: blue-hour
+  title: Blue Hour
+  description: The opening song from the fictional EP.
+  artwork:
+    file: blue-hour.webp
+  links:
+    spotify: https://open.spotify.com/track/example-blue-hour
+    soundcloud: https://soundcloud.com/exampleartist/blue-hour
+  lyrics:
+    - { type: verse, lines: [The daylight fades to blue] }
+
+- slug: paper-moon
+  title: Paper Moon
+  description: A fictional song from Four Sides.
+  links:
+    spotify: https://open.spotify.com/track/example-paper-moon
+    soundcloud: https://soundcloud.com/exampleartist/paper-moon
+  lyrics:
+    - { type: verse, lines: [A paper moon above the town] }
+
+- slug: open-road
+  title: Open Road
+  description: A fictional song from Four Sides.
+  links:
+    spotify: https://open.spotify.com/track/example-open-road
+    soundcloud: https://soundcloud.com/exampleartist/open-road
+  lyrics:
+    - { type: verse, lines: [The open road runs on] }
+
+- slug: after-rain
+  title: After Rain
+  description: A fictional song from Four Sides.
+  links:
+    spotify: https://open.spotify.com/track/example-after-rain
+    soundcloud: https://soundcloud.com/exampleartist/after-rain
+  lyrics:
+    - { type: verse, lines: [The pavement shines after rain] }
