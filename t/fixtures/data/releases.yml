@@ -1,0 +1,55 @@
+---
+- slug: four-sides
+  title: Four Sides
+  release_type: ep
+  release_date: 2025-09-04
+  tagline: Four songs, gathered together.
+  description: A fictional four-song EP.
+  artwork:
+    file: four-sides.webp
+  links:
+    spotify: https://open.spotify.com/album/example
+    soundcloud: https://soundcloud.com/exampleartist/sets/four-sides
+  tracks:
+    - { position: 1, song: blue-hour, status: released }
+    - { position: 2, song: paper-moon, status: released }
+    - { position: 3, song: open-road, status: released }
+    - { position: 4, song: after-rain, status: released }
+
+- slug: first-light
+  title: First Light
+  release_type: single
+  release_date: 2026-07-26
+  tagline: A fictional first single.
+  description: A song about seeing the morning arrive.
+  artwork:
+    file: first-light.webp
+    alt: Example Artist playing "First Light" to a festival crowd
+  links:
+    spotify: https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC
+    soundcloud: https://soundcloud.com/exampleartist/first-light
+  tracks:
+    - { position: 1, song: first-light, status: released }
+
+- slug: signals-in-the-static
+  title: Signals in the Static
+  release_type: album
+  featured: true
+  tagline: Twelve fictional songs, revealed one at a time.
+  description: A forthcoming example album.
+  artwork:
+    file: signals-in-the-static.webp
+  links: {}
+  tracks:
+    - { position: 1, song: first-light, status: released }
+    - { position: 2, status: unannounced }
+    - { position: 3, status: unannounced }
+    - { position: 4, status: unannounced }
+    - { position: 5, status: unannounced }
+    - { position: 6, status: unannounced }
+    - { position: 7, status: unannounced }
+    - { position: 8, status: unannounced }
+    - { position: 9, status: unannounced }
+    - { position: 10, status: unannounced }
+    - { position: 11, status: unannounced }
+    - { position: 12, status: unannounced }
