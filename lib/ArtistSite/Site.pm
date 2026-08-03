@@ -3,7 +3,7 @@ package ArtistSite::Site;
 use v5.26;
 use warnings;
 
-our $VERSION = '0.1.1';
+our $VERSION = '0.2.0';
 
 use Moo;
 use App::BlurFill;
