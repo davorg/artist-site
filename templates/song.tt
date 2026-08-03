@@ -15,7 +15,16 @@
       <h1>[% page.title | html %]</h1>
       <p class="intro">[% page.description | html %]</p>
 
-      [% IF page.spotify_embed_url %]
+      [% IF page.youtube_embed_url %]
+        <iframe
+          class="player player--video"
+          src="[% page.youtube_embed_url | html %]"
+          title="Watch [% page.title | html %] on YouTube"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      [% ELSIF page.spotify_embed_url %]
         <iframe
           class="player"
           src="[% page.spotify_embed_url | html %]"
@@ -28,7 +37,7 @@
       <div class="streaming-links">
         [% FOREACH link IN page.streaming_links %]
           <a class="button" href="[% link.url | html %]">
-            Listen on [% link.name | html %]
+            [% link.action | html %] on [% link.name | html %]
           </a>
         [% END %]
       </div>

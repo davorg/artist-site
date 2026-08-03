@@ -36,6 +36,7 @@ my $song = ArtistSite::Song->new(
         height => 1200,
     ),
     links => ArtistSite::StreamingLinks->new(
+        youtube    => 'abcdefghijk',
         spotify   => 'https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC',
         soundcloud => 'https://soundcloud.com/example/a-song',
     ),
@@ -57,8 +58,10 @@ is $song->og_image, 'https://example.com/assets/images/a-song.webp',
 is $song->spotify_embed_url,
     'https://open.spotify.com/embed/track/4uLU6hMCjMI75M1A2tKUQC',
     'uses a song-specific Spotify link';
+is $song->youtube_embed_url, 'https://www.youtube.com/embed/abcdefghijk',
+    'builds a YouTube embed URL from the video ID';
 is [map { $_->name } $song->streaming_links->@*],
-    ['Spotify', 'SoundCloud'], 'uses song-specific streaming links';
+    ['YouTube', 'Spotify', 'SoundCloud'], 'uses song-specific streaming links';
 ok $song->has_story, 'song has a structured story';
 is $song->story->sections->[0]->title, 'In the studio',
     'story contains section objects';
@@ -75,5 +78,13 @@ like $html, qr{<h2>The story</h2>}, 'renders the story on the song page';
 like $html, qr{<h3>In the studio</h3>}, 'renders story section titles';
 like $html, qr{The first paragraph.*The second paragraph}s,
     'renders each story paragraph';
+like $html, qr{src="https://www\.youtube\.com/embed/abcdefghijk"},
+    'uses YouTube as the song player when a video ID is present';
+unlike $html, qr{open\.spotify\.com/embed},
+    'does not also render the Spotify player';
+like $html, qr{href="https://www\.youtube\.com/watch\?v=abcdefghijk"},
+    'includes the YouTube video in the song links';
+like $html, qr{>\s*Watch on YouTube\s*<},
+    'labels the YouTube link as a video action';
 
 done_testing;

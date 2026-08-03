@@ -120,6 +120,14 @@ sub spotify_embed_url {
     return $links->spotify_embed_url;
 }
 
+sub youtube_embed_url {
+    my ($self) = @_;
+    my $links = $self->effective_links;
+
+    return unless defined $links;
+    return $links->youtube_embed_url;
+}
+
 sub streaming_links {
     my ($self) = @_;
     my $links = $self->effective_links;

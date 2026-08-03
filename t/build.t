@@ -220,9 +220,13 @@ subtest 'build output' => sub {
         'EP page links to its song pages';
 
     like $song_html, qr{<h2>Lyrics</h2>}, 'song page renders lyrics';
+    like $song_html, qr{https://www\.youtube\.com/embed/abcdefghijk},
+        'song page embeds its YouTube video';
+    unlike $song_html, qr{open\.spotify\.com/embed},
+        'YouTube replaces the Spotify embed';
     like $song_html,
-        qr{https://open\.spotify\.com/embed/track/4uLU6hMCjMI75M1A2tKUQC},
-        'song page embeds its Spotify track';
+        qr{href="https://www\.youtube\.com/watch\?v=abcdefghijk"},
+        'song page includes its YouTube link';
     like $song_html,
         qr{<img\s+class="artwork"\s+src="/assets/images/first-light\.webp"},
         'song page falls back to release artwork';
