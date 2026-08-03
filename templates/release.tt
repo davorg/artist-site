@@ -26,9 +26,9 @@
         ></iframe>
       [% END %]
 
-      [% FOREACH link IN page.links.items %]
+      [% FOREACH link IN page.streaming.items %]
         <a class="button" href="[% link.url | html %]">
-          Listen on [% link.name | html %]
+          [% link.action | html %] on [% link.name | html %]
         </a>
       [% END %]
     </div>

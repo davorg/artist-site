@@ -36,7 +36,7 @@ has artwork => (
     is => 'ro',
 );
 
-has links => (
+has streaming => (
     is => 'ro',
 );
 
@@ -65,11 +65,11 @@ sub listening_release {
     for my $release ($self->releases->@*) {
         return $release
             if $release->release_type eq 'single'
-            && $release->links->items->@*;
+            && $release->streaming->items->@*;
     }
 
     for my $release ($self->releases->@*) {
-        return $release if $release->links->items->@*;
+        return $release if $release->streaming->items->@*;
     }
 
     return;
@@ -100,40 +100,40 @@ sub artwork_url {
     return '/assets/images/' . $artwork->file;
 }
 
-sub effective_links {
+sub effective_streaming {
     my ($self) = @_;
 
-    return $self->links
-        if defined $self->links && $self->links->items->@*;
+    return $self->streaming
+        if defined $self->streaming && $self->streaming->items->@*;
 
     my $release = $self->listening_release;
     return unless defined $release;
 
-    return $release->links;
+    return $release->streaming;
 }
 
 sub spotify_embed_url {
     my ($self) = @_;
-    my $links = $self->effective_links;
+    my $streaming = $self->effective_streaming;
 
-    return unless defined $links;
-    return $links->spotify_embed_url;
+    return unless defined $streaming;
+    return $streaming->spotify_embed_url;
 }
 
 sub youtube_embed_url {
     my ($self) = @_;
-    my $links = $self->effective_links;
+    my $streaming = $self->effective_streaming;
 
-    return unless defined $links;
-    return $links->youtube_embed_url;
+    return unless defined $streaming;
+    return $streaming->youtube_embed_url;
 }
 
 sub streaming_links {
     my ($self) = @_;
-    my $links = $self->effective_links;
+    my $streaming = $self->effective_streaming;
 
-    return [] unless defined $links;
-    return $links->items;
+    return [] unless defined $streaming;
+    return $streaming->items;
 }
 
 sub og_image {

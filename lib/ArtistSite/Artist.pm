@@ -39,6 +39,10 @@ has ga4_measurement_id => (
     is => 'ro',
 );
 
+has soundcloud_user => (
+    is => 'ro',
+);
+
 has hero_image => (
     is => 'ro',
 );

@@ -3,7 +3,7 @@ package ArtistSite::Site;
 use v5.26;
 use warnings;
 
-our $VERSION = '0.2.0';
+our $VERSION = '0.3.0';
 
 use Moo;
 use App::BlurFill;
@@ -18,7 +18,7 @@ use ArtistSite::Page;
 use ArtistSite::Release;
 use ArtistSite::SocialLink;
 use ArtistSite::Song;
-use ArtistSite::StreamingLinks;
+use ArtistSite::Streaming;
 use ArtistSite::Story;
 use ArtistSite::StorySection;
 use ArtistSite::Track;
@@ -109,16 +109,18 @@ sub _song_from_data {
     ];
 
     my %song_attributes = $song_data->%*;
-    delete @song_attributes{qw(artwork links story)};
+    delete @song_attributes{qw(artwork streaming story)};
 
     $song_attributes{artwork} = $self->_artwork_from_data(
         $song_data->{artwork},
         'Artwork for ' . $song_data->{title} . ' by ' . $self->artist->name,
     ) if exists $song_data->{artwork};
 
-    $song_attributes{links} = ArtistSite::StreamingLinks->new(
-        $song_data->{links}
-    ) if exists $song_data->{links};
+    $song_attributes{streaming} = $self->_streaming_from_data(
+        $song_data->{streaming},
+        spotify_type    => 'track',
+        soundcloud_type => 'track',
+    ) if exists $song_data->{streaming};
 
     $song_attributes{story} = $self->_story_from_data(
         $song_data->{story}
@@ -168,7 +170,7 @@ sub _release_from_data {
     ];
 
     my %release_attributes = $release_data->%*;
-    delete $release_attributes{tracks};
+    delete @release_attributes{qw(artwork streaming tracks)};
 
     my $artwork = $self->_artwork_from_data(
         $release_data->{artwork},
@@ -186,9 +188,24 @@ sub _release_from_data {
         social_image => '/assets/og/release-'
             . $release_data->{slug} . '.png',
         artwork   => $artwork,
-        links     => ArtistSite::StreamingLinks->new($release_data->{links}),
+        streaming => $self->_streaming_from_data(
+            $release_data->{streaming},
+            spotify_type => 'album',
+            soundcloud_type => $release_data->{release_type} eq 'single'
+                ? 'track' : 'set',
+        ),
         tracks    => $tracks,
         unannounced_track_label => $unannounced_label,
+    );
+}
+
+sub _streaming_from_data {
+    my ($self, $streaming_data, %options) = @_;
+
+    return ArtistSite::Streaming->new(
+        $streaming_data->%*,
+        soundcloud_user => $self->artist->soundcloud_user,
+        %options,
     );
 }
 

@@ -13,7 +13,7 @@ use ArtistSite::Artist;
 use ArtistSite::Artwork;
 use ArtistSite::Release;
 use ArtistSite::Song;
-use ArtistSite::StreamingLinks;
+use ArtistSite::Streaming;
 use ArtistSite::Track;
 
 my $artist = ArtistSite::Artist->new(
@@ -21,10 +21,11 @@ my $artist = ArtistSite::Artist->new(
     tagline     => 'A tagline',
     description => 'Artist description',
     site_url    => 'https://example.com',
+    soundcloud_user => 'example',
 );
 
 sub make_release {
-    my ($spotify_url, @additional_tracks) = @_;
+    my ($spotify_id, @additional_tracks) = @_;
 
     my $song = ArtistSite::Song->new(
         artist      => $artist,
@@ -59,8 +60,9 @@ sub make_release {
             width  => 1200,
             height => 1200,
         ),
-        links => ArtistSite::StreamingLinks->new(
-            spotify => $spotify_url,
+        streaming => ArtistSite::Streaming->new(
+            spotify => $spotify_id,
+            spotify_type => 'album',
         ),
         tracks => [$track, @additional_tracks],
     );
@@ -128,27 +130,19 @@ subtest 'unannounced track rendering' => sub {
         'renders the configured placeholder';
 };
 
-subtest 'Spotify embed URLs' => sub {
-    my $release = make_release(
-        'https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC'
-    );
+subtest 'Spotify identifiers' => sub {
+    my $release = make_release('4uLU6hMCjMI75M1A2tKUQC');
 
+    is $release->streaming->spotify_url,
+        'https://open.spotify.com/album/4uLU6hMCjMI75M1A2tKUQC',
+        'builds a release URL from a Spotify album ID';
     is $release->spotify_embed_url,
-        'https://open.spotify.com/embed/track/4uLU6hMCjMI75M1A2tKUQC',
-        'converts a Spotify track URL';
-
-    $release = make_release(
-        'https://open.spotify.com/intl-en/track/4uLU6hMCjMI75M1A2tKUQC'
-    );
-
-    is $release->spotify_embed_url,
-        'https://open.spotify.com/embed/track/4uLU6hMCjMI75M1A2tKUQC',
-        'converts a locale-prefixed Spotify URL';
-
-    ok !defined make_release('https://example.com/song')->spotify_embed_url,
-        'rejects a non-Spotify URL';
+        'https://open.spotify.com/embed/album/4uLU6hMCjMI75M1A2tKUQC',
+        'builds an embed URL from a Spotify album ID';
+    ok !defined make_release('not-an-id')->spotify_embed_url,
+        'rejects an invalid Spotify ID';
     ok !defined make_release(undef)->spotify_embed_url,
-        'handles a missing Spotify URL';
+        'handles a missing Spotify ID';
 };
 
 subtest 'release structured data' => sub {

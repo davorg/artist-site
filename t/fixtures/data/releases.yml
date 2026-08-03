@@ -7,9 +7,9 @@
   description: A fictional four-song EP.
   artwork:
     file: four-sides.webp
-  links:
-    spotify: https://open.spotify.com/album/example
-    soundcloud: https://soundcloud.com/exampleartist/sets/four-sides
+  streaming:
+    spotify: 1111111111111111111111
+    soundcloud: four-sides
   tracks:
     - { position: 1, song: blue-hour, status: released }
     - { position: 2, song: paper-moon, status: released }
@@ -25,9 +25,9 @@
   artwork:
     file: first-light.webp
     alt: Example Artist playing "First Light" to a festival crowd
-  links:
-    spotify: https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC
-    soundcloud: https://soundcloud.com/exampleartist/first-light
+  streaming:
+    spotify: 4uLU6hMCjMI75M1A2tKUQC
+    soundcloud: first-light
   tracks:
     - { position: 1, song: first-light, status: released }
 
@@ -39,7 +39,7 @@
   description: A forthcoming example album.
   artwork:
     file: signals-in-the-static.webp
-  links: {}
+  streaming: {}
   tracks:
     - { position: 1, song: first-light, status: released }
     - { position: 2, status: unannounced }

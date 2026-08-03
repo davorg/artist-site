@@ -17,7 +17,7 @@ use ArtistSite::Page;
 use ArtistSite::Release;
 use ArtistSite::Site;
 use ArtistSite::Song;
-use ArtistSite::StreamingLinks;
+use ArtistSite::Streaming;
 use ArtistSite::Track;
 
 my $project_root = path($FindBin::Bin)->parent;
@@ -80,7 +80,7 @@ subtest 'YAML data becomes domain objects' => sub {
     is $site->song_by_slug('first-light')->effective_artwork->alt,
         'Example Artist playing "First Light" to a festival crowd',
         'preserves explicit alt text';
-    isa_ok $site->releases->[0]->links, ['ArtistSite::StreamingLinks'];
+    isa_ok $site->releases->[0]->streaming, ['ArtistSite::Streaming'];
     isa_ok $site->releases->[0]->tracks->[0], ['ArtistSite::Track'];
     is refaddr($site->releases->[0]->tracks->[0]->song),
         refaddr($site->song_by_slug('first-light')),
@@ -200,6 +200,9 @@ subtest 'build output' => sub {
         'keeps lyrics on the song page';
     like $release_html, qr{href="/song/first-light/"},
         'single release links to its song page';
+    like $release_html,
+        qr{href="https://soundcloud\.com/exampleartist/first-light"},
+        'single streaming resolves a SoundCloud track slug';
 
     like $album_html, qr{<title>Signals in the Static — Example Artist</title>},
         'renders the album title';
@@ -218,6 +221,9 @@ subtest 'build output' => sub {
         'EP page renders its type and release date';
     like $ep_html, qr{href="/song/blue-hour/"},
         'EP page links to its song pages';
+    like $ep_html,
+        qr{href="https://soundcloud\.com/exampleartist/sets/four-sides"},
+        'release streaming resolves a SoundCloud set slug';
 
     like $song_html, qr{<h2>Lyrics</h2>}, 'song page renders lyrics';
     like $song_html, qr{https://www\.youtube\.com/embed/abcdefghijk},

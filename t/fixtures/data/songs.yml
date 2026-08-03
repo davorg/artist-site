@@ -2,10 +2,10 @@
 - slug: first-light
   title: First Light
   description: A fictional song about seeing the morning arrive.
-  links:
+  streaming:
     youtube: abcdefghijk
-    spotify: https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC
-    soundcloud: https://soundcloud.com/exampleartist/first-light
+    spotify: 4uLU6hMCjMI75M1A2tKUQC
+    soundcloud: first-light
   lyrics:
     - type: verse
       lines:
@@ -23,35 +23,35 @@
   description: The opening song from the fictional EP.
   artwork:
     file: blue-hour.webp
-  links:
-    spotify: https://open.spotify.com/track/example-blue-hour
-    soundcloud: https://soundcloud.com/exampleartist/blue-hour
+  streaming:
+    spotify: 2222222222222222222222
+    soundcloud: blue-hour
   lyrics:
     - { type: verse, lines: [The daylight fades to blue] }
 
 - slug: paper-moon
   title: Paper Moon
   description: A fictional song from Four Sides.
-  links:
-    spotify: https://open.spotify.com/track/example-paper-moon
-    soundcloud: https://soundcloud.com/exampleartist/paper-moon
+  streaming:
+    spotify: 3333333333333333333333
+    soundcloud: paper-moon
   lyrics:
     - { type: verse, lines: [A paper moon above the town] }
 
 - slug: open-road
   title: Open Road
   description: A fictional song from Four Sides.
-  links:
-    spotify: https://open.spotify.com/track/example-open-road
-    soundcloud: https://soundcloud.com/exampleartist/open-road
+  streaming:
+    spotify: 4444444444444444444444
+    soundcloud: open-road
   lyrics:
     - { type: verse, lines: [The open road runs on] }
 
 - slug: after-rain
   title: After Rain
   description: A fictional song from Four Sides.
-  links:
-    spotify: https://open.spotify.com/track/example-after-rain
-    soundcloud: https://soundcloud.com/exampleartist/after-rain
+  streaming:
+    spotify: 5555555555555555555555
+    soundcloud: after-rain
   lyrics:
     - { type: verse, lines: [The pavement shines after rain] }

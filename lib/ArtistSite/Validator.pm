@@ -83,11 +83,11 @@ sub _release_issues {
             grep { $positions{$_} > 1 } keys %positions;
 
         push @issues, $self->_issue(
-            warning => 'released-release-without-links',
+            warning => 'released-release-without-streaming',
             "Released release '" . $release->title
-                . "' has no streaming links",
+                . "' has no streaming services",
         ) if defined $release->release_date
-            && !$release->links->items->@*;
+            && !$release->streaming->items->@*;
 
         push @issues, $self->_issue(
             warning => 'release-without-description',
@@ -114,8 +114,8 @@ sub _song_issues {
         ) unless $song->has_artwork;
 
         push @issues, $self->_issue(
-            warning => 'song-without-links',
-            "Song '" . $song->title . "' has no streaming links",
+            warning => 'song-without-streaming',
+            "Song '" . $song->title . "' has no streaming services",
         ) unless $song->streaming_links->@*;
 
         push @issues, $self->_issue(

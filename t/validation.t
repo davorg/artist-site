@@ -51,7 +51,7 @@ ok $codes{'duplicate-song-slug'}->is_error,
 is $codes{'song-without-lyrics'}->severity, 'warning',
     'missing lyrics produce a warning';
 ok exists $codes{'song-without-artwork'}, 'warns about missing artwork';
-ok exists $codes{'song-without-links'}, 'warns about missing links';
+ok exists $codes{'song-without-streaming'}, 'warns about missing streaming';
 ok exists $codes{'song-without-description'},
     'warns about missing SEO descriptions';
 

@@ -32,7 +32,7 @@ has artwork => (
     required => 1,
 );
 
-has links => (
+has streaming => (
     is       => 'ro',
     required => 1,
 );
@@ -111,7 +111,7 @@ sub artwork_url {
 sub spotify_embed_url {
     my ($self) = @_;
 
-    return $self->links->spotify_embed_url;
+    return $self->streaming->spotify_embed_url;
 }
 
 sub json_ld_type {

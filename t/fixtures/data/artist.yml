@@ -5,6 +5,7 @@ description: Example Artist makes fictional music used to test ArtistSite.
 about_title: Songs made for imaginary listeners.
 site_url: https://artist.example
 location: Somewhere
+soundcloud_user: exampleartist
 ga4_measurement_id: G-TEST123456
 hero_image: artist.webp
 unannounced_track_label: More to come…
