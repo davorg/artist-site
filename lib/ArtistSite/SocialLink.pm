@@ -23,6 +23,7 @@ sub label {
         tiktok     => 'TikTok',
         spotify    => 'Spotify',
         soundcloud => 'SoundCloud',
+        youtube    => 'YouTube',
     }->{$self->service} // ucfirst $self->service;
 }
 
@@ -34,6 +35,7 @@ sub icon_class {
         tiktok     => 'fa-brands fa-tiktok',
         spotify    => 'fa-brands fa-spotify',
         soundcloud => 'fa-brands fa-soundcloud',
+        youtube    => 'fa-brands fa-youtube',
     }->{$self->service} // 'fa-solid fa-arrow-up-right-from-square';
 }
 
