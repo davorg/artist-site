@@ -183,6 +183,8 @@ subtest 'build output' => sub {
         'renders the TikTok link';
     like $home_html, qr{googletagmanager\.com/gtag/js\?id=G-TEST123456},
         'renders the configured GA4 measurement ID';
+    unlike $home_html, qr{/assets/css/override\.css},
+        'does not include override CSS by default';
 
     like $release_html, qr{MusicRecording}, 'includes release JSON-LD';
     like $release_html, qr{social-links--footer},
@@ -272,6 +274,40 @@ subtest 'sitemap and robots content' => sub {
         'sitemap includes the song';
     like $robots, qr{Sitemap: https://artist\.example/sitemap\.xml},
         'robots.txt points to the sitemap';
+};
+
+subtest 'optional override CSS' => sub {
+    my $override_root = tempdir;
+    my $site_assets_dir = $override_root->child('assets');
+    my $override_css = $site_assets_dir->child('css/override.css');
+    my $font_file = $site_assets_dir->child('fonts/custom.woff2');
+
+    $override_css->parent->mkpath;
+    $font_file->parent->mkpath;
+    $override_css->spew_utf8(":root { --acid: #ff00ff; }\n");
+    $font_file->spew_raw('fake font data');
+
+    my $override_output_dir = tempdir;
+    my $override_site = ArtistSite::Site->new(
+        data_dir        => $fixture_root->child('data'),
+        output_dir      => $override_output_dir,
+        theme_dir       => $project_root->child('templates'),
+        assets_dir      => $project_root->child('assets'),
+        site_assets_dir => $site_assets_dir,
+        images_dir      => $fixture_root->child('assets/images'),
+    );
+
+    $override_site->build;
+
+    ok $override_output_dir->child('assets/css/override.css')->exists,
+        'copies the optional override stylesheet';
+    ok $override_output_dir->child('assets/fonts/custom.woff2')->exists,
+        'copies supporting override assets';
+
+    my $home_html = $override_output_dir->child('index.html')->slurp_utf8;
+    like $home_html,
+        qr{<link rel="stylesheet" href="/assets/css/site\.css">\s*<link rel="stylesheet" href="/assets/css/override\.css">}s,
+        'includes the override stylesheet after the default CSS';
 };
 
 done_testing;

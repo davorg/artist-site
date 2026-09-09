@@ -32,6 +32,7 @@ my $theme_dir = defined $options{theme_dir}
     : $engine_root->child('templates');
 
 my $data_dir = $site_root->child('data');
+my $site_assets_dir = $site_root->child('assets');
 my $images_dir = $site_root->child('assets/images');
 
 die "Site data directory does not exist: $data_dir\n"
@@ -46,6 +47,7 @@ my $site = ArtistSite::Site->new(
     output_dir => $output_dir,
     theme_dir  => $theme_dir,
     assets_dir => $engine_root->child('assets'),
+    site_assets_dir => $site_assets_dir,
     images_dir => $images_dir,
 );
 

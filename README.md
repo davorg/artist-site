@@ -13,6 +13,11 @@ bin/build-site --site-dir /path/to/artist --output-dir _site
 The artist repository supplies `data/` and `assets/images/`. The engine
 supplies the templates and CSS.
 
+To override fonts, colours, or other presentation details in a client build,
+add `assets/css/override.css` to the artist repository. When present, the build
+copies any non-image files from the artist's `assets/` tree into the generated
+site and includes `/assets/css/override.css` after the default stylesheet.
+
 ## Docker
 
 Build the engine image:
