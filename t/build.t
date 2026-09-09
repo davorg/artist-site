@@ -9,6 +9,7 @@ use lib "$FindBin::Bin/../lib";
 use Path::Tiny qw(path tempdir);
 use Scalar::Util qw(refaddr);
 use Image::Size qw(imgsize);
+use YAML::XS qw(LoadFile DumpFile);
 
 use ArtistSite::Artist;
 use ArtistSite::Artwork;
@@ -156,6 +157,8 @@ subtest 'build output' => sub {
         'homepage features the forthcoming album release';
     unlike $home_html, qr{Single\s*·\s*2026-07-26},
         'homepage contains only the featured release';
+    unlike $home_html, qr{open\.spotify\.com/embed},
+        'homepage skips the player when the featured release has no Spotify embed';
     like $home_html, qr{href="/release/"},
         'homepage links to the full release index';
     like $release_index_html, qr{Signals in the Static},
@@ -251,6 +254,39 @@ subtest 'build output' => sub {
         'song page links to the single appearance';
     like $song_html, qr{"\@type"\s*:\s*"MusicComposition"},
         'song page uses song structured data';
+};
+
+subtest 'homepage featured release player' => sub {
+    my $custom_data_root = tempdir;
+    my $custom_output_dir = tempdir;
+    my $data_dir = $custom_data_root->child('data');
+    $data_dir->mkpath;
+
+    $fixture_root->child('data/artist.yml')->copy($data_dir->child('artist.yml'));
+    $fixture_root->child('data/songs.yml')->copy($data_dir->child('songs.yml'));
+
+    my $releases = LoadFile($fixture_root->child('data/releases.yml')->stringify);
+    $releases->[2]{streaming}{spotify} = '1111111111111111111111';
+    DumpFile($data_dir->child('releases.yml')->stringify, $releases);
+
+    my $custom_site = ArtistSite::Site->new(
+        data_dir   => $data_dir,
+        output_dir => $custom_output_dir,
+        theme_dir  => $project_root->child('templates'),
+        assets_dir => $project_root->child('assets'),
+        images_dir => $fixture_root->child('assets/images'),
+    );
+
+    $custom_site->build;
+
+    my $home_html = $custom_output_dir->child('index.html')->slurp_utf8;
+
+    like $home_html,
+        qr{https://open\.spotify\.com/embed/album/1111111111111111111111},
+        'homepage renders the featured release Spotify player';
+    like $home_html,
+        qr{title="Listen to Signals in the Static on Spotify"},
+        'homepage player is labelled with the featured release title';
 };
 
 subtest 'sitemap and robots content' => sub {
