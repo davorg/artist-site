@@ -55,7 +55,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Initial release of the artist site engine.
 - Docker image build and publish support using `VERSION.x.x.x` tags.
 
-[Unreleased]: https://github.com/davorg/artist-site/compare/VERSION.0.3.1...HEAD
+[Unreleased]: https://github.com/davorg/artist-site/compare/VERSION.0.4.0...HEAD
+[0.4.0]: https://github.com/davorg/artist-site/compare/VERSION.0.3.1...VERSION.0.4.0
 [0.3.1]: https://github.com/davorg/artist-site/compare/VERSION.0.3.0...VERSION.0.3.1
 [0.3.0]: https://github.com/davorg/artist-site/compare/VERSION.0.2.0...VERSION.0.3.0
 [0.2.0]: https://github.com/davorg/artist-site/compare/VERSION.0.1.1...VERSION.0.2.0
