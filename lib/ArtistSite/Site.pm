@@ -28,6 +28,7 @@ has data_dir   => (is => 'ro', required => 1);
 has output_dir => (is => 'ro', required => 1);
 has theme_dir  => (is => 'ro', required => 1);
 has assets_dir => (is => 'ro', required => 1);
+has site_assets_dir => (is => 'ro');
 has images_dir => (is => 'ro', required => 1);
 
 has artist   => (is => 'lazy');
@@ -432,9 +433,10 @@ sub _render_page {
     $template->process(
         'layout.tt',
         {
-            artist  => $self->artist,
-            page    => $page,
-            content => $body,
+            artist           => $self->artist,
+            page             => $page,
+            content          => $body,
+            override_css_url => $self->override_css_url,
         },
         \$html,
     ) or die $template->error;
@@ -465,6 +467,28 @@ sub _copy_assets {
         $self->images_dir,
         $output_assets->child('images'),
     );
+
+    if (defined $self->site_assets_dir && $self->site_assets_dir->is_dir) {
+        for my $asset ($self->site_assets_dir->children) {
+            next if $asset->basename eq 'images';
+            $self->_copy_asset_tree(
+                $asset,
+                $output_assets->child($asset->basename),
+            );
+        }
+    }
+
+    return;
+}
+
+sub override_css_url {
+    my ($self) = @_;
+
+    return unless defined $self->site_assets_dir;
+
+    my $override_css = $self->site_assets_dir->child('css/override.css');
+
+    return '/assets/css/override.css' if $override_css->is_file;
 
     return;
 }
