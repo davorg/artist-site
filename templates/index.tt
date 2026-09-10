@@ -34,6 +34,16 @@
 
   [% PROCESS 'release-card.tt' release = featured_release %]
 
+  [% IF featured_release.spotify_embed_url %]
+    <iframe
+      class="player"
+      src="[% featured_release.spotify_embed_url | html %]"
+      title="Listen to [% featured_release.title | html %] on Spotify"
+      loading="lazy"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    ></iframe>
+  [% END %]
+
   <p class="catalogue-link">
     <a class="text-link" href="/release/">See all releases →</a>
   </p>
